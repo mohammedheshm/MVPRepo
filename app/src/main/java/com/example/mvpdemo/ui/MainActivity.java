@@ -11,10 +11,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.mvpdemo.R;
 import com.example.mvpdemo.pojo.MovieModel;
 
-public class MainActivity extends AppCompatActivity  implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity  implements View.OnClickListener ,OnMovieView {
 
     TextView movieNameTv;
     Button getMoviebtn;
+    MoviePresenter presenter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,21 +24,22 @@ public class MainActivity extends AppCompatActivity  implements View.OnClickList
         movieNameTv = findViewById(R.id.textView);
         getMoviebtn = findViewById(R.id.button);
         getMoviebtn.setOnClickListener(this);
+
+         presenter = new MoviePresenter(this);
     }
 
-    public MovieModel getMovieFroDatabase (){
-        return new MovieModel("Cast Away" , "21-10-1998" , "Very sad movie"  ,1);
-    }
 
-    public void getMovie() {
-        movieNameTv.setText(getMovieFroDatabase().getName());
 
-    }
 
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.button){
-            getMovie();
+            presenter.getMoveName();
         }
+    }
+
+    @Override
+    public void onGetMovieName(String movieName) {
+        movieNameTv.setText(movieName);
     }
 }
